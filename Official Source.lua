@@ -46,4 +46,5 @@ close.Parent = frame
 
 close.MouseButton1Click:Connect(function()
     gui:Destroy()
+    setclipboard('Join Discord for announcement why: discord.gg/s7r7gTusMV')
 end)
