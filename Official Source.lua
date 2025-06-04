@@ -37,7 +37,7 @@ local close = Instance.new("TextButton")
 close.Size = UDim2.new(0, 100, 0, 30)
 close.Position = UDim2.new(0.5, -50, 1, -40)
 close.BackgroundColor3 = Color3.fromRGB(255, 70, 70)
-close.Text = "Close"
+close.Text = "Join new server"
 close.TextColor3 = Color3.fromRGB(255, 255, 255)
 close.TextSize = 16
 close.Font = Enum.Font.GothamBold
@@ -46,5 +46,5 @@ close.Parent = frame
 
 close.MouseButton1Click:Connect(function()
     gui:Destroy()
-    setclipboard('Join Discord for announcement why: discord.gg/s7r7gTusMV')
+    setclipboard('Join Discord for announcement why: https://discord.gg/tWjrWuf4nK')
 end)
