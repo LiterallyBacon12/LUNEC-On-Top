@@ -1,50 +1,70 @@
-local gui = Instance.new("ScreenGui")
-gui.Name = "broStfu"
-gui.ResetOnSpawn = false
-gui.Parent = game.CoreGui
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 400, 0, 220)
-frame.Position = UDim2.new(0.5, -200, 0.5, -110)
-frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+local gui = Instance.new("ScreenGui", PlayerGui)
+gui.Name = "SytxUI"
+gui.IgnoreGuiInset = true
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local frame = Instance.new("Frame", gui)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.Size = UDim2.new(0, 450, 0, 250)
+frame.BackgroundTransparency = 0.15
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 frame.BorderSizePixel = 0
-frame.BackgroundTransparency = 0.1
-frame.Parent = gui
+frame.ClipsDescendants = true
+frame.Visible = true
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 50)
-title.Position = UDim2.new(0, 0, 0, 0)
+local uicorner = Instance.new("UICorner", frame)
+uicorner.CornerRadius = UDim.new(0, 12)
+
+local title = Instance.new("TextLabel", frame)
+title.Text = "Hello LUNEC!\n\nRegarding the shutdown we've decided to return back and create a better far and new version named \"SYTX\" standing for our previous project named Syvextia that has been reshortened. We reannounce our returning back to the scripting community. Enjoy:"
+title.TextColor3 = Color3.fromRGB(235, 235, 235)
+title.Font = Enum.Font.Gotham
+title.TextSize = 16
+title.TextWrapped = true
+title.Size = UDim2.new(1, -40, 0, 140)
+title.Position = UDim2.new(0, 20, 0, 20)
 title.BackgroundTransparency = 1
-title.Text = "🚫 LUNEC Shutdown Notice"
-title.TextColor3 = Color3.fromRGB(255, 70, 70)
-title.TextSize = 22
-title.Font = Enum.Font.GothamBold
-title.Parent = frame
+title.TextYAlignment = Enum.TextYAlignment.Top
 
-local body = Instance.new("TextLabel")
-body.Size = UDim2.new(1, -40, 1, -100)
-body.Position = UDim2.new(0, 20, 0, 60)
-body.BackgroundTransparency = 1
-body.TextWrapped = true
-body.TextYAlignment = Enum.TextYAlignment.Top
-body.Text = "We regret to inform you that the LUNEC exploit script is being permanently shut down.\n\nThank you for your support.\n\nShutdown Date: June 03, 2025"
-body.TextColor3 = Color3.fromRGB(220, 220, 220)
-body.TextSize = 16
-body.Font = Enum.Font.Gotham
-body.Parent = frame
+local buttonNames = {"Copy Discord", "Copy New Script", "Close"}
+local actions = {
+    function()
+        setclipboard("https://discord.gg/UMu3nTV3Qn")
+    end,
+    function()
+        setclipboard("loadstring(game:HttpGet('https://raw.githubusercontent.com/DxvinityRadience/Sytx-Interface/refs/heads/main/Main%20Source.lua'))()")
+    end,
+    function() end
+}
 
-local close = Instance.new("TextButton")
-close.Size = UDim2.new(0, 100, 0, 30)
-close.Position = UDim2.new(0.5, -50, 1, -40)
-close.BackgroundColor3 = Color3.fromRGB(255, 70, 70)
-close.Text = "Join new server"
-close.TextColor3 = Color3.fromRGB(255, 255, 255)
-close.TextSize = 16
-close.Font = Enum.Font.GothamBold
-close.BorderSizePixel = 0
-close.Parent = frame
+for i, name in ipairs(buttonNames) do
+    local button = Instance.new("TextButton", frame)
+    button.Text = name
+    button.Font = Enum.Font.GothamSemibold
+    button.TextSize = 14
+    button.Size = UDim2.new(0.3, 0, 0, 36)
+    button.Position = UDim2.new(0.05 + 0.325 * (i - 1), 0, 1, -50)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.AutoButtonColor = true
+    local corner = Instance.new("UICorner", button)
+    corner.CornerRadius = UDim.new(0, 8)
 
-close.MouseButton1Click:Connect(function()
-    gui:Destroy()
-    setclipboard('Join Discord for announcement why: https://discord.gg/UMu3nTV3Qn')
-end)
+    button.MouseButton1Click:Connect(function()
+        actions[i]()
+        local tween = TweenService:Create(frame, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Size = UDim2.new(0, 0, 0, 0),
+            Position = UDim2.new(0.5, 0, 0.5, 0)
+        })
+        tween:Play()
+        tween.Completed:Connect(function()
+            gui:Destroy()
+        end)
+    end)
+end
